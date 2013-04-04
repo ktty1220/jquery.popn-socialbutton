@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.popn-socialbutton.js"></script>
+    <title>jQuery POP'n SocialButton サンプル</title>
+    <style type="text/css">
+      body {
+        margin: 0 20px;
+      }
+      h2 {
+        margin-top: 50px;
+      }
+      pre {
+        font-family: monospace,sans-serif;
+        padding-top: 1em;
+        background-color: #eee;
+        border: solid 1px #ddd;
+      }
+      .social-button.google small {
+        border-radius: 0px !important;
+        box-shadow: none !important;
+        border-width: 1px !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>jQuery POP'n SocialButton サンプル</h1>
+
+    <h2>サンプル1: githubのシェアボタン</h2>
+    <div class="social-button github"></div>
+    <pre class="script">
+    $('.social-button.github').popnSocialButton([ 'twitter', 'facebook', 'hatebu' ], {
+      url: 'http://github.com/'
+    });
+    </pre>
+
+    <h2>サンプル2: googleのシェアボタン</h2>
+    <div class="social-button google"></div>
+    <pre class="script">
+    $('.social-button.google').popnSocialButton([ 'facebook', 'twitter' ], {
+      url: 'http://www.google.com/',
+      text: 'ググレカス', 
+      imgDir: './img',
+      buttonSpace: 64,
+      countPosition: {
+        top: 8,
+        left: 50
+      },
+      countForeColor: '#222222',
+      countBackColor: '#eeeeee',
+      countBorderColor: '#888888',
+      countSize: 16
+    });
+    </pre>
+
+    <script type="text/javascript">
+      $(function () {
+        eval($('.script').text());
+      });
+    </script>
+  </body>
+</html>
