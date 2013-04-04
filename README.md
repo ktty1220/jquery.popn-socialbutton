@@ -29,67 +29,67 @@
 
 ## $( *element* ).popnSocialButton(services[, options])
 
-* __services__
+### __services__
 
-    表示させたいシェアボタンのサービス名を配列で指定します。
+表示させたいシェアボタンのサービス名を配列で指定します。
 
-    配列で指定した順番にシェアボタンを表示します。
+配列で指定した順番にシェアボタンを表示します。
 
-    __サービス名一覧__
+__サービス名一覧__
 
-    * twitter
-    * facebook
-    * hatebu
+* twitter
+* facebook
+* hatebu
 
-* __options__ (省略可能)
+### __options__ (省略可能)
 
-    表示をカスタマイズするオプションの連想配列を指定します。
+表示をカスタマイズするオプションの連想配列を指定します。
 
-    * url
+* url
 
-        シェアするURLです。デフォルトは現在のページのURLです。
+    シェアするURLです。デフォルトは現在のページのURLです。
 
-    * text
+* text
 
-        シェア内容に付加するテキストです。デフォルトは現在のページのタイトルです。
+    シェア内容に付加するテキストです。デフォルトは現在のページのタイトルです。
 
-    * imgDir
+* imgDir
 
-        シェアボタンの画像があるディレクトリの場所を変更します。デフォルトは`'./img'`です。
+    シェアボタンの画像があるディレクトリの場所を変更します。デフォルトは`'./img'`です。
 
-    * buttonSpace
+* buttonSpace
 
-        シェアボタンの表示間隔をpx単位で指定します。デフォルトは`12`です。
+    シェアボタンの表示間隔をpx単位で指定します。デフォルトは`12`です。
 
-    * countPos
+* countPos
 
-        シェア数の表示位置を連想配列で指定します(`top` or `bottom` と `left` or `right`の組み合わせ)。デフォルトは`{ top: 32, right: -12 }`です。
+    シェア数の表示位置を連想配列で指定します(`top` or `bottom` と `left` or `right`の組み合わせ)。デフォルトは`{ top: 32, right: -12 }`です。
 
-    * countSize
+* countSize
 
-        シェア数のフォントサイズを指定します。デフォルトは`10`です。
+    シェア数のフォントサイズを指定します。デフォルトは`10`です。
 
-    * countForeColor
+* countForeColor
 
-        シェア数の文字色を指定します。デフォルトは`'#ffffff'`です。
+    シェア数の文字色を指定します。デフォルトは`'#ffffff'`です。
 
-    * countBackColor
+* countBackColor
 
-        シェア数の背景色を指定します。デフォルトは`'#cc0000'`です。
+    シェア数の背景色を指定します。デフォルトは`'#cc0000'`です。
 
-    * countBorderColor
+* countBorderColor
 
-        シェア数の枠色を指定します。デフォルトは`'#ffffff'`です。
+    シェア数の枠色を指定します。デフォルトは`'#ffffff'`です。
 
-    シェア数に関してさらにカスタマイズをしたい場合はCSSで別途指定してください。
+シェア数に関してさらにカスタマイズをしたい場合はCSSで別途指定してください。
 
-            #social-button small {
-              border-radius: 0px !important;
-              box-shadow: none !important;
-              border-width: 1px !important;
-            }
+    #social-button small {
+      border-radius: 0px !important;
+      box-shadow: none !important;
+      border-width: 1px !important;
+    }
 
-    また、具体的な使用例は[example.html](example.html)をご覧ください。
+また、具体的な使用例は[example.html](example.html)をご覧ください。
 
 ## その他
 
