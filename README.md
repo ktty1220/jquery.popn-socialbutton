@@ -27,9 +27,9 @@
 
         $('#social-button').popnSocialButton([ 'twitter', 'facebook', 'hatebu' ]);
 
-## $(_element_).popnSocialButton(services[, options])
+## $( *element* ).popnSocialButton(services[, options])
 
-* services
+* __services__
 
     表示させたいシェアボタンのサービス名を配列で指定します。
 
@@ -41,7 +41,7 @@
     * facebook
     * hatebu
 
-* options (省略可能)
+* __options__ (省略可能)
 
     表示をカスタマイズするオプションの連想配列を指定します。
 
