@@ -18,8 +18,8 @@
         background-color: #eee;
         border: solid 1px #ddd;
       }
-      .social-button.google small {
-        border-radius: 0px !important;
+      .social-button.google .popn-socialbutton-count {
+        border-radius: 0 !important;
         box-shadow: none !important;
         border-width: 1px !important;
       }
@@ -49,16 +49,20 @@
         top: 8,
         left: 50
       },
-      countForeColor: '#222222',
-      countBackColor: '#eeeeee',
-      countBorderColor: '#888888',
+      countColor: {
+        text: '#222222',
+        bg: '#eeeeee',
+        textHover: '#444444',
+        bgHover: '#cccccc',
+        border: '#888888'
+      },
       countSize: 16
     });
     </pre>
     <div>上記に加えて別途CSSを指定</div>
     <pre>
-      .social-button.google small {
-        border-radius: 0px !important;
+      .social-button.google .popn-socialbutton-count {
+        border-radius: 0 !important;
         box-shadow: none !important;
         border-width: 1px !important;
       }
