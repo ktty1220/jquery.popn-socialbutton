@@ -81,6 +81,7 @@ do (jQuery) ->
         class: 'popn-socialbutton-share'
         target: '_blank'
       ).css
+        outline: 'none'
         display: 'block'
         width: '100%'
         height: '100%'
@@ -99,6 +100,7 @@ do (jQuery) ->
         border: "solid 2px #{exOptions.countColor.border}"
         fontSize: exOptions.countSize
         textDecoration: 'none'
+        outline: 'none'
         fontWeight: 'bold'
         lineHeight: 1.5
         padding: '0 4px'
@@ -140,6 +142,6 @@ do (jQuery) ->
         backgroundColor: exOptions.countColor.bg
 
     $(@).find('.popn-socialbutton-wrap').mouseenter () ->
-      $(@).css marginTop: 0
+      $(@).stop().animate marginTop: 0, 100, 'swing'
     .mouseleave () ->
-      $(@).css marginTop: 4
+      $(@).stop().animate marginTop: 4, 100, 'swing'
