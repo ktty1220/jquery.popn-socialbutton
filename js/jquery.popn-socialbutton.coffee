@@ -68,7 +68,7 @@ do (jQuery) ->
       wrapTag = $('<div/>').attr(
         class: "popn-socialbutton-wrap #{name}"
       ).css
-        float: 'left'
+        'float': 'left'
         position: 'relative'
         width: iconSize
         height: iconSize
@@ -130,18 +130,16 @@ do (jQuery) ->
       window.open @href, '', "width=520, height=400, top=#{top}, left=#{left}"
       false
 
-    $(@).find('.popn-socialbutton-count')
-      .mouseenter () ->
-        $(@).css
-          color: exOptions.countColor.textHover
-          backgroundColor: exOptions.countColor.bgHover
-      .mouseleave () ->
-        $(@).css
-          color: exOptions.countColor.text
-          backgroundColor: exOptions.countColor.bg
+    $(@).find('.popn-socialbutton-count').mouseenter () ->
+      $(@).css
+        color: exOptions.countColor.textHover
+        backgroundColor: exOptions.countColor.bgHover
+    .mouseleave () ->
+      $(@).css
+        color: exOptions.countColor.text
+        backgroundColor: exOptions.countColor.bg
 
-    $(@).find('.popn-socialbutton-wrap')
-      .mouseenter () ->
-        $(@).css marginTop: 0
-      .mouseleave () ->
-        $(@).css marginTop: 4
+    $(@).find('.popn-socialbutton-wrap').mouseenter () ->
+      $(@).css marginTop: 0
+    .mouseleave () ->
+      $(@).css marginTop: 4
