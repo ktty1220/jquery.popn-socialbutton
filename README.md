@@ -61,7 +61,7 @@
 
 * buttonSpace
 
-    シェアボタンの表示間隔をpx単位で指定します。デフォルトは`12`です。
+    シェアボタンの表示間隔をpx単位で指定します。デフォルトは`24`です。
 
 * countPosition
 
@@ -114,6 +114,10 @@ jQueryが自動でベンダープレフィックスを追加するようにな�
 * 各種サービスのアイコンは[ヴォルフロッシュ様のミニ・ソーシャル・アイコン](http://wolfrosch.com/works/webdesign/socialicons)から利用させて頂きました。
 
 ## Changelog
+
+### 0.1.3 (2013-04-05)
+
+* `buttonSpace`をmargin-leftとmargin-rightに設定していたのをmargin-leftのみにして、先頭のボタンのmargin-leftを0にする方式に変更
 
 ### 0.1.2 (2013-04-05)
 

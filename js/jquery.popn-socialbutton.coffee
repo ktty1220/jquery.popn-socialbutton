@@ -21,7 +21,7 @@ do (jQuery) ->
       url: location.href
       text: $('title').html()
       imgDir: './img'
-      buttonSpace: 12
+      buttonSpace: 24
       countPosition:
         top: 32
         right: -12
@@ -64,7 +64,7 @@ do (jQuery) ->
         countUrl: "http://api.b.st-hatena.com/entry.count?url=#{exOptions.url}"
         jsonpFunc: (json) -> json ? 0
 
-    _addLink = (name, prop) =>
+    _addLink = (name, prop, idx) =>
       wrapTag = $('<div/>').attr(
         class: "popn-socialbutton-wrap #{name}"
       ).css
@@ -73,8 +73,7 @@ do (jQuery) ->
         width: iconSize
         height: iconSize
         marginTop: popnUp
-        marginLeft: exOptions.buttonSpace
-        marginRight: exOptions.buttonSpace
+      wrapTag.css marginLeft: exOptions.buttonSpace if idx > 0
 
       shareTag = $('<a/>').attr(
         href: prop.shareUrl
@@ -126,8 +125,8 @@ do (jQuery) ->
         dataType: 'jsonp'
         success: (json) -> countTag.show().text prop.jsonpFunc(json)
 
-    for sName in services
-      _addLink sName, servicesProp[sName] if servicesProp[sName]?
+    for sName, idx in services
+      _addLink sName, servicesProp[sName], idx if servicesProp[sName]?
     $(@).height iconSize + popnUp
 
     $(@).find('.popn-socialbutton-share').click () ->

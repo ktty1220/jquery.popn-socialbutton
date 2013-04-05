@@ -20,7 +20,7 @@
   */
 
   return $.fn.popnSocialButton = function(services, options) {
-    var exOptions, iconSize, popnUp, sName, servicesProp, _addLink, _i, _len,
+    var exOptions, iconSize, idx, popnUp, sName, servicesProp, _addLink, _i, _len,
       _this = this;
 
     if (options == null) {
@@ -30,7 +30,7 @@
       url: location.href,
       text: $('title').html(),
       imgDir: './img',
-      buttonSpace: 12,
+      buttonSpace: 24,
       countPosition: {
         top: 32,
         right: -12
@@ -84,7 +84,7 @@
         }
       }
     };
-    _addLink = function(name, prop) {
+    _addLink = function(name, prop, idx) {
       var countTag, countTagType, imgTag, shareTag, wrapTag, _ref;
 
       wrapTag = $('<div/>').attr({
@@ -94,10 +94,13 @@
         position: 'relative',
         width: iconSize,
         height: iconSize,
-        marginTop: popnUp,
-        marginLeft: exOptions.buttonSpace,
-        marginRight: exOptions.buttonSpace
+        marginTop: popnUp
       });
+      if (idx > 0) {
+        wrapTag.css({
+          marginLeft: exOptions.buttonSpace
+        });
+      }
       shareTag = $('<a/>').attr({
         href: prop.shareUrl,
         "class": 'popn-socialbutton-share',
@@ -154,10 +157,10 @@
         }
       });
     };
-    for (_i = 0, _len = services.length; _i < _len; _i++) {
-      sName = services[_i];
+    for (idx = _i = 0, _len = services.length; _i < _len; idx = ++_i) {
+      sName = services[idx];
       if (servicesProp[sName] != null) {
-        _addLink(sName, servicesProp[sName]);
+        _addLink(sName, servicesProp[sName], idx);
       }
     }
     $(this).height(iconSize + popnUp);
