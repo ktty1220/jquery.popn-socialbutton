@@ -19,9 +19,32 @@
         border: solid 1px #ddd;
       }
       .social-button.google .popn-socialbutton-count {
-        border-radius: 0 !important;
+        position: relative;
+        border-radius: 6px !important;
         box-shadow: none !important;
-        border-width: 1px !important;
+      }
+      .social-button.google .popn-socialbutton-count:after,
+      .social-button.google .popn-socialbutton-count:before {
+        border: solid transparent;
+        content: ' ';
+        width: 0;
+        height: 0;
+        left: -16px;
+        position: absolute;
+      }
+      .social-button.google .popn-socialbutton-count:after {
+        border-width: 6px;
+        border-right-color: #eee;
+        top: 5px;
+        left: -11px;
+      }
+      .social-button.google .popn-socialbutton-count:before {
+        border-width: 8px;
+        border-right-color: #888;
+        top: 3px;
+      }
+      .social-button.google a.popn-socialbutton-count:hover:after {
+        border-right-color: #ddd;
       }
     </style>
   </head>
@@ -47,14 +70,14 @@
       buttonSpace: 64,
       countPosition: {
         top: 8,
-        left: 50
+        left: 54
       },
       countColor: {
-        text: '#222222',
-        bg: '#eeeeee',
-        textHover: '#444444',
-        bgHover: '#cccccc',
-        border: '#888888'
+        text: '#222',
+        bg: '#eee',
+        textHover: '#444',
+        bgHover: '#ddd',
+        border: '#888'
       },
       countSize: 16
     });
@@ -62,9 +85,32 @@
     <div>上記に加えて別途CSSを指定</div>
     <pre>
       .social-button.google .popn-socialbutton-count {
-        border-radius: 0 !important;
+        position: relative;
+        border-radius: 6px !important;
         box-shadow: none !important;
-        border-width: 1px !important;
+      }
+      .social-button.google .popn-socialbutton-count:after,
+      .social-button.google .popn-socialbutton-count:before {
+        border: solid transparent;
+        content: ' ';
+        width: 0;
+        height: 0;
+        left: -16px;
+        position: absolute;
+      }
+      .social-button.google .popn-socialbutton-count:after {
+        border-width: 6px;
+        border-right-color: #eee;
+        top: 5px;
+        left: -11px;
+      }
+      .social-button.google .popn-socialbutton-count:before {
+        border-width: 8px;
+        border-right-color: #888;
+        top: 3px;
+      }
+      .social-button.google a.popn-socialbutton-count:hover:after {
+        border-right-color: #ddd;
       }
     </pre>
     <script type="text/javascript">

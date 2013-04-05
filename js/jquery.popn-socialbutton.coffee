@@ -1,5 +1,5 @@
 ###!
-* jQuery POP'n SocialButton v0.1.1
+* jQuery POP'n SocialButton v0.1.2
 *
 * http://github.com/ktty1220/jquery.popn-socialbutton
 *
@@ -92,7 +92,16 @@ do (jQuery) ->
       ).css
         border: 'none'
 
-      countCSS = $.extend {},
+      countTagType = if prop.commentUrl then 'a' else 'span'
+      countTag = $("<#{countTagType}/>").attr class: 'popn-socialbutton-count'
+      if countTagType is 'a'
+        countTag.attr
+          href: prop.commentUrl ? prop.shareUrl
+          target: '_blank'
+      else
+        countTag.css cursor: 'default'
+
+      countTag.css $.extend {},
         display: 'none'
         position: 'absolute'
         color: exOptions.countColor.text
@@ -108,11 +117,6 @@ do (jQuery) ->
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.8)'
         zIndex: 1
       , exOptions.countPosition
-      countTag = $('<a/>').attr(
-        href: prop.commentUrl ? prop.shareUrl
-        class: 'popn-socialbutton-count'
-        target: '_blank'
-      ).css countCSS
 
       wrapTag.append(shareTag.append(imgTag)).append countTag
       $(@).append wrapTag
@@ -132,7 +136,7 @@ do (jQuery) ->
       window.open @href, '', "width=520, height=400, top=#{top}, left=#{left}"
       false
 
-    $(@).find('.popn-socialbutton-count').mouseenter () ->
+    $(@).find('a.popn-socialbutton-count').mouseenter () ->
       $(@).css
         color: exOptions.countColor.textHover
         backgroundColor: exOptions.countColor.bgHover
