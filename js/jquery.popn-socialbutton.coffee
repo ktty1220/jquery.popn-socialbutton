@@ -1,5 +1,5 @@
 ###!
-* jQuery POP'n SocialButton v0.1.2
+* jQuery POP'n SocialButton v0.1.3
 *
 * http://github.com/ktty1220/jquery.popn-socialbutton
 *
