@@ -3,6 +3,9 @@
 *
 * http://github.com/ktty1220/jquery.popn-socialbutton
 *
+* 参考: http://q.hatena.ne.jp/1320898356
+* 参考: http://stackoverflow.com/questions/5699270/how-to-get-share-counts-using-graph-api
+*
 * Copyright (c) 2013 ktty1220 ktty1220@gmail.com
 * Licensed under the MIT license
 ###
@@ -10,12 +13,8 @@
 
 do (jQuery) ->
   'use strict'
-
   $ = jQuery
-  ###*
-  * Twitter:ツイート数とFacebook:いいね数を取得
-  * 参考: http://q.hatena.ne.jp/1320898356
-  ###
+
   $.fn.popnSocialButton = (services, options = {}) ->
     exOptions = $.extend {},
       url: location.href
@@ -53,8 +52,10 @@ do (jQuery) ->
         img: 'facebook_2x.png'
         alt: 'Facebook Share Button'
         shareUrl: "http://www.facebook.com/sharer.php?u=#{exOptions.url}&t=#{exOptions.text}"
-        countUrl: "https://graph.facebook.com/#{exOptions.url}"
-        jsonpFunc: (json) -> json.shares ? 0
+        #countUrl: "https://graph.facebook.com/#{exOptions.url}"
+        #jsonpFunc: (json) -> json.shares ? 0
+        countUrl: "https://graph.facebook.com/fql?q=#{encodeURIComponent "SELECT url,normalized_url,share_count,like_count,comment_count,total_count,commentsbox_count,comments_fbid,click_count FROM link_stat WHERE url='#{exOptions.url}'"}"
+        jsonpFunc: (json) -> json?.data[0]?.total_count ? 0
 
       hatebu:
         img: 'hatena_bookmark_2x.png'
@@ -110,7 +111,7 @@ do (jQuery) ->
         textDecoration: 'none'
         outline: 'none'
         fontWeight: 'bold'
-        lineHeight: 1.5
+        #lineHeight: 1.5
         padding: '0 4px'
         borderRadius: 6
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.8)'

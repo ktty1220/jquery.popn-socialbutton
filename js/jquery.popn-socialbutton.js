@@ -6,6 +6,9 @@
 *
 * http://github.com/ktty1220/jquery.popn-socialbutton
 *
+* 参考: http://q.hatena.ne.jp/1320898356
+* 参考: http://stackoverflow.com/questions/5699270/how-to-get-share-counts-using-graph-api
+*
 * Copyright (c) 2013 ktty1220 ktty1220@gmail.com
 * Licensed under the MIT license
 */
@@ -14,11 +17,6 @@
   var $;
 
   $ = jQuery;
-  /**
-  * Twitter:ツイート数とFacebook:いいね数を取得
-  * 参考: http://q.hatena.ne.jp/1320898356
-  */
-
   return $.fn.popnSocialButton = function(services, options) {
     var exOptions, iconSize, idx, popnUp, sName, servicesProp, _addLink, _i, _len,
       _this = this;
@@ -66,11 +64,11 @@
         img: 'facebook_2x.png',
         alt: 'Facebook Share Button',
         shareUrl: "http://www.facebook.com/sharer.php?u=" + exOptions.url + "&t=" + exOptions.text,
-        countUrl: "https://graph.facebook.com/" + exOptions.url,
+        countUrl: "https://graph.facebook.com/fql?q=" + (encodeURIComponent("SELECT url,normalized_url,share_count,like_count,comment_count,total_count,commentsbox_count,comments_fbid,click_count FROM link_stat WHERE url='" + exOptions.url + "'")),
         jsonpFunc: function(json) {
-          var _ref;
+          var _ref, _ref1;
 
-          return (_ref = json.shares) != null ? _ref : 0;
+          return (_ref = json != null ? (_ref1 = json.data[0]) != null ? _ref1.total_count : void 0 : void 0) != null ? _ref : 0;
         }
       },
       hatebu: {
@@ -141,7 +139,6 @@
         textDecoration: 'none',
         outline: 'none',
         fontWeight: 'bold',
-        lineHeight: 1.5,
         padding: '0 4px',
         borderRadius: 6,
         boxShadow: '0 1px 2px rgba(0, 0, 0, 0.8)',

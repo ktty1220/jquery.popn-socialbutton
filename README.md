@@ -115,6 +115,10 @@ jQueryが自動でベンダープレフィックスを追加するようにな�
 
 ## Changelog
 
+### 0.1.4 (2013-04-11)
+
+* Facebookのシェア数をFQLを使用して取得するように変更
+
 ### 0.1.3 (2013-04-05)
 
 * `buttonSpace`をmargin-leftとmargin-rightに設定していたのをmargin-leftのみにして、先頭のボタンのmargin-leftを0にする方式に変更
