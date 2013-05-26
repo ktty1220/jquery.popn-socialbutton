@@ -46,16 +46,27 @@ do (jQuery) ->
         shareUrl: "https://twitter.com/share?url=#{exOptions.url}&text=#{exOptions.text}"
         commentUrl: "https://twitter.com/search/?q=#{exOptions.url}"
         countUrl: "http://urls.api.twitter.com/1/urls/count.json?url=#{exOptions.url}"
-        jsonpFunc: (json) -> json.count ? 0
+        jsonpFunc: (json, cb) -> cb(json.count ? 0)
 
       facebook:
         img: 'facebook_2x.png'
         alt: 'Facebook Share Button'
         shareUrl: "http://www.facebook.com/sharer.php?u=#{exOptions.url}&t=#{exOptions.text}"
-        #countUrl: "https://graph.facebook.com/#{exOptions.url}"
-        #jsonpFunc: (json) -> json.shares ? 0
-        countUrl: "https://graph.facebook.com/fql?q=#{encodeURIComponent "SELECT url,normalized_url,share_count,like_count,comment_count,total_count,commentsbox_count,comments_fbid,click_count FROM link_stat WHERE url='#{exOptions.url}'"}"
-        jsonpFunc: (json) -> json?.data[0]?.total_count ? 0
+        countUrl: "https://graph.facebook.com/#{exOptions.url}"
+        jsonpFunc: (json, cb) ->
+          ###
+          * - Graph APIでsharesが取得できない場合はFQLでtotal_countを取得する
+          * - Graph APIのlikes + FQLのtotal_countでいいねボタンと同じ件数になる模様(いくつかのケースを調べた結果)
+          * - ほとんどのサイトではFQLのtotal_countだけでいいねボタンと同じ件数になる
+          ###
+          return cb(json.shares) if json.shares?
+          graphLikes = json.likes ? 0
+          $.ajax
+            url: "https://graph.facebook.com/fql?q=#{encodeURIComponent "SELECT total_count FROM link_stat WHERE url='#{exOptions.url}'"}"
+            dataType: 'jsonp'
+          .done (json) ->
+            fqlTotal = json.data[0]?.total_count ? 0
+            cb(graphLikes + fqlTotal)
 
       hatebu:
         img: 'hatena_bookmark_2x.png'
@@ -63,7 +74,7 @@ do (jQuery) ->
         shareUrl: "http://b.hatena.ne.jp/add?mode=confirm&url=#{exOptions.url}&title=#{exOptions.text}&mode=confirm"
         commentUrl: "http://b.hatena.ne.jp/entry/#{exOptions.urlOrg}"
         countUrl: "http://api.b.st-hatena.com/entry.count?url=#{exOptions.url}"
-        jsonpFunc: (json) -> json ? 0
+        jsonpFunc: (json, cb) -> cb(json ? 0)
 
     _addLink = (name, prop, idx) =>
       wrapTag = $('<div/>').attr(
@@ -96,7 +107,7 @@ do (jQuery) ->
       countTag = $("<#{countTagType}/>").attr class: 'popn-socialbutton-count'
       if countTagType is 'a'
         countTag.attr
-          href: prop.commentUrl ? prop.shareUrl
+          href: prop.commentUrl
           target: '_blank'
       else
         countTag.css cursor: 'default'
@@ -124,7 +135,7 @@ do (jQuery) ->
       $.ajax
         url: prop.countUrl
         dataType: 'jsonp'
-        success: (json) -> countTag.show().text prop.jsonpFunc(json)
+      .done (json) -> prop.jsonpFunc json, (count) -> countTag.show().text count
 
     for sName, idx in services
       _addLink sName, servicesProp[sName], idx if servicesProp[sName]?

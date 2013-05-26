@@ -54,21 +54,39 @@
         shareUrl: "https://twitter.com/share?url=" + exOptions.url + "&text=" + exOptions.text,
         commentUrl: "https://twitter.com/search/?q=" + exOptions.url,
         countUrl: "http://urls.api.twitter.com/1/urls/count.json?url=" + exOptions.url,
-        jsonpFunc: function(json) {
+        jsonpFunc: function(json, cb) {
           var _ref;
 
-          return (_ref = json.count) != null ? _ref : 0;
+          return cb((_ref = json.count) != null ? _ref : 0);
         }
       },
       facebook: {
         img: 'facebook_2x.png',
         alt: 'Facebook Share Button',
         shareUrl: "http://www.facebook.com/sharer.php?u=" + exOptions.url + "&t=" + exOptions.text,
-        countUrl: "https://graph.facebook.com/fql?q=" + (encodeURIComponent("SELECT url,normalized_url,share_count,like_count,comment_count,total_count,commentsbox_count,comments_fbid,click_count FROM link_stat WHERE url='" + exOptions.url + "'")),
-        jsonpFunc: function(json) {
-          var _ref, _ref1;
+        countUrl: "https://graph.facebook.com/" + exOptions.url,
+        jsonpFunc: function(json, cb) {
+          /*
+          * - Graph APIでsharesが取得できない場合はFQLでtotal_countを取得する
+          * - Graph APIのlikes + FQLのtotal_countでいいねボタンと同じ件数になる模様(いくつかのケースを調べた結果)
+          * - ほとんどのサイトではFQLのtotal_countだけでいいねボタンと同じ件数になる
+          */
 
-          return (_ref = json != null ? (_ref1 = json.data[0]) != null ? _ref1.total_count : void 0 : void 0) != null ? _ref : 0;
+          var graphLikes, _ref;
+
+          if (json.shares != null) {
+            return cb(json.shares);
+          }
+          graphLikes = (_ref = json.likes) != null ? _ref : 0;
+          return $.ajax({
+            url: "https://graph.facebook.com/fql?q=" + (encodeURIComponent("SELECT total_count FROM link_stat WHERE url='" + exOptions.url + "'")),
+            dataType: 'jsonp'
+          }).done(function(json) {
+            var fqlTotal, _ref1, _ref2;
+
+            fqlTotal = (_ref1 = (_ref2 = json.data[0]) != null ? _ref2.total_count : void 0) != null ? _ref1 : 0;
+            return cb(graphLikes + fqlTotal);
+          });
         }
       },
       hatebu: {
@@ -77,13 +95,13 @@
         shareUrl: "http://b.hatena.ne.jp/add?mode=confirm&url=" + exOptions.url + "&title=" + exOptions.text + "&mode=confirm",
         commentUrl: "http://b.hatena.ne.jp/entry/" + exOptions.urlOrg,
         countUrl: "http://api.b.st-hatena.com/entry.count?url=" + exOptions.url,
-        jsonpFunc: function(json) {
-          return json != null ? json : 0;
+        jsonpFunc: function(json, cb) {
+          return cb(json != null ? json : 0);
         }
       }
     };
     _addLink = function(name, prop, idx) {
-      var countTag, countTagType, imgTag, shareTag, wrapTag, _ref;
+      var countTag, countTagType, imgTag, shareTag, wrapTag;
 
       wrapTag = $('<div/>').attr({
         "class": "popn-socialbutton-wrap " + name
@@ -121,7 +139,7 @@
       });
       if (countTagType === 'a') {
         countTag.attr({
-          href: (_ref = prop.commentUrl) != null ? _ref : prop.shareUrl,
+          href: prop.commentUrl,
           target: '_blank'
         });
       } else {
@@ -148,10 +166,11 @@
       $(_this).append(wrapTag);
       return $.ajax({
         url: prop.countUrl,
-        dataType: 'jsonp',
-        success: function(json) {
-          return countTag.show().text(prop.jsonpFunc(json));
-        }
+        dataType: 'jsonp'
+      }).done(function(json) {
+        return prop.jsonpFunc(json, function(count) {
+          return countTag.show().text(count);
+        });
       });
     };
     for (idx = _i = 0, _len = services.length; _i < _len; idx = ++_i) {
