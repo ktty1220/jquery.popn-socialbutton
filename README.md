@@ -1,14 +1,27 @@
-# jQuery POP'n SocialButton - Twitter, Facebook, はてなブックマークのカスタムシェアボタンを表示するjQueryプラグイン
+# jQuery POP'n SocialButton
 
-![example](example.png)
+Twitter, Facebook, Google+1, はてなブックマークのカスタムシェアボタンを表示するjQueryプラグイン
+
+(おまけでGitHubリポジトリのスター数ボタン)
+
+![example1](ss/example1.png)
 
 上記のようなちょっと変わったシェアボタンを表示できます。
 
 それぞれのボタンにマウスカーソルを合わせると、ボタンがピョコっと浮き上がります。
 
-ボタンをクリックすると各サービスのシェア登録ページを、シェア数をクリックすると各サービスのコメント一覧ページを別ウインドウで開きます。ただし、Facebookはコメント一覧を見る方法がない(と思う)のでシェア数をクリックしても何も起こりません。
+CSSを独自に指定する事でボタンのカスタマイズも可能です。
+
+![example2](ss/example2.png)
+
+
+ボタンをクリックすると各サービスのシェア登録ページを、シェア数をクリックすると各サービスのコメント一覧ページを別ウインドウで開きます。ただし、FacebookとGoogle+1はコメント一覧を見る方法がない(と思う)のでシェア数をクリックしても何も起こりません。
 
 今のところの対応サービスは、日本でシェアボタンの主流になっている3サービス(Twitter, Facebook, はてなブックマーク)のみです(というか他のサービスのシェア数の取得方法が分からないだけだったりする)。
+
+__バージョン1.6でGoogle+1、GitHubリポジトリに対応しました。__
+
+![example3](ss/example3.png)
 
 他のサービスのシェア数の取得方法とシェアリンクのURL・パラメータの情報を提供頂ければ追加するかもしれません。
 
@@ -27,7 +40,7 @@
 
 4. Javascript内で上記エレメントに対して`popnSocialButton()`を実行します。
 
-        $('#social-button').popnSocialButton([ 'twitter', 'facebook', 'hatebu' ]);
+        $('#social-button').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus' ]);
 
 ## $( *element* ).popnSocialButton(services[, options])
 
@@ -42,6 +55,8 @@
 * twitter
 * facebook
 * hatebu
+* gplus
+* github(`githubRepo`オプションを指定する必要があります)
 
 ### __options__ (省略可能)
 
@@ -69,7 +84,7 @@
 
 * countSize
 
-    シェア数のフォントサイズを指定します。デフォルトは`10`です。
+    シェア数のフォントサイズを指定します。デフォルトは`11`です。
 
 * countColor
 
@@ -83,9 +98,19 @@
               border: '#ffffff'      // 枠色です。
             }
 
-シェア数に関してさらにカスタマイズをしたい場合はCSSで別途指定してください。
+* githubRepo
 
-#### CSSでの別途指定例
+    `services`に`github`を指定した場合は必須です。その他のサービスでは無視されます。
+
+    スター数を表示させたいGitHubリポジトリを以下の様に指定します。
+
+        githubRepo: 'ktty1220/jquery.popn-socialbutton'
+
+#### 表示のカスタマイズ
+
+シェア数の部分の要素は`popn-socialbutton-count`というクラス名を持っています。
+
+シェア数に関してカスタマイズをしたい場合はCSSで別途このクラス名に対して指定してください。
 
     #social-button .popn-socialbutton-count {
       border-radius: 0 !important;
@@ -112,8 +137,16 @@ jQueryが自動でベンダープレフィックスを追加するようにな�
 
 * 各種サービスのシェア数取得に関しては<http://q.hatena.ne.jp/1320898356>を参考にさせて頂きました。
 * 各種サービスのアイコンは[ヴォルフロッシュ様のミニ・ソーシャル・アイコン](http://wolfrosch.com/works/webdesign/socialicons)から利用させて頂きました。
+* Google+1のシェア数取得に関しては<http://stackoverflow.com/questions/8853342/how-to-get-google-1-count-for-current-page-in-php>を参考にさせて頂きました。
+* YQLによる情報取得に関しては<http://hail2u.net/blog/coding/jquery-query-yql-plugin.html>および<http://hail2u.net/blog/coding/jquery-query-yql-plugin-supports-open-data-tables.html>を参考にさせて頂きました。
 
 ## Changelog
+
+### 0.1.6 (2013-06-15)
+
+* Google+1、GitHubリポジトリに対応
+* シェア数のデフォルトフォントサイズを10から11に変更
+* Facebookのシェア数取得でURLを2重にエンコードしていたのを修正(問題なく動作はしていた)
 
 ### 0.1.5 (2013-05-26)
 

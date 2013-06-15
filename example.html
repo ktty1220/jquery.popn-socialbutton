@@ -51,18 +51,26 @@
   <body>
     <h1>jQuery POP'n SocialButton サンプル</h1>
 
-    <h2>サンプル1: githubのシェアボタン</h2>
+    <h2>サンプル1: デフォルトのシェアボタン</h2>
     <div class="social-button github"></div>
     <pre class="script">
-    $('.social-button.github').popnSocialButton([ 'twitter', 'facebook', 'hatebu' ], {
+    $('.social-button.github').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus' ], {
       url: 'http://github.com/'
     });
     </pre>
 
-    <h2>サンプル2: googleのシェアボタン</h2>
+    <h2>サンプル2: GitHubリポジトリのスター数ボタン(誰得)</h2>
+    <div class="social-button github-repo"></div>
+    <pre class="script">
+    $('.social-button.github-repo').popnSocialButton([ 'github' ], {
+      githubRepo: 'ktty1220/jquery.popn-socialbutton'
+    });
+    </pre>
+
+    <h2>サンプル3: シェア数をふきだし風にカスタマイズ</h2>
     <div class="social-button google"></div>
     <pre class="script">
-    $('.social-button.google').popnSocialButton([ 'facebook', 'twitter' ], {
+    $('.social-button.google').popnSocialButton([ 'facebook', 'gplus', 'twitter' ], {
       url: 'http://www.google.com/',
       text: 'ググレカス', 
       imgDir: './img',
