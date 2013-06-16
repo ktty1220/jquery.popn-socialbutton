@@ -1,5 +1,5 @@
 ###!
-* jQuery POP'n SocialButton v0.1.6
+* jQuery POP'n SocialButton v0.1.7
 *
 * http://github.com/ktty1220/jquery.popn-socialbutton
 *
@@ -22,7 +22,7 @@ do (jQuery) ->
 
   $.fn.popnSocialButton = (services, options = {}) ->
     exOptions = $.extend {},
-      url: location.href
+      url: document.location.href
       text: $('title').html()
       imgDir: './img'
       buttonSpace: 24
@@ -47,6 +47,8 @@ do (jQuery) ->
     popnUp = 4
     # YQLで偽装するUA
     dummyUA = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.1)'
+    # 現在のページのURLスキーム
+    scheme = if /https/.test document.location.protocol then 'https' else 'http'
 
     servicesProp =
       twitter:
@@ -60,7 +62,7 @@ do (jQuery) ->
       facebook:
         img: 'facebook_2x.png'
         alt: 'Facebook Share Button'
-        shareUrl: "http://www.facebook.com/sharer.php?u=#{exOptions.url}&t=#{exOptions.text}"
+        shareUrl: "https://www.facebook.com/sharer.php?u=#{exOptions.url}&t=#{exOptions.text}"
         countUrl: "https://graph.facebook.com/#{exOptions.url}"
         jsonpFunc: (json, cb) ->
           ###
@@ -94,7 +96,7 @@ do (jQuery) ->
         * - クロスドメインによる取得になるのでYQLを使用する
         * - ただしgoogleのサーバーに設置してあるrobots.txtはYQL(というかYahooのロボット全般？)のUAを拒否するのでOpen Data Tableのdata.headerプラグインを使用する
         ###
-        countUrl: "http://query.yahooapis.com/v1/public/yql?q=#{encodeURIComponent "SELECT content FROM data.headers WHERE url='https://plusone.google.com/_/+1/fastbutton?hl=ja&url=#{exOptions.urlOrg}' and ua='#{dummyUA}'"}&env=http://datatables.org/alltables.env"
+        countUrl: "#{scheme}://query.yahooapis.com/v1/public/yql?q=#{encodeURIComponent "SELECT content FROM data.headers WHERE url='https://plusone.google.com/_/+1/fastbutton?hl=ja&url=#{exOptions.urlOrg}' and ua='#{dummyUA}'"}&env=http://datatables.org/alltables.env"
         jsonpFunc: (json, cb) ->
           count = 0
           if json.query?.count > 0
@@ -176,6 +178,7 @@ do (jQuery) ->
     $(@).height iconSize + popnUp
 
     $(@).find('.popn-socialbutton-share').click () ->
+      return true if $(@).parent().hasClass 'github'
       top = (screen.height / 2) - 180
       left = (screen.width / 2) - 240
       window.open @href, '', "width=520, height=400, top=#{top}, left=#{left}"
