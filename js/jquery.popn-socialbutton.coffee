@@ -1,5 +1,5 @@
 ###!
-* jQuery POP'n SocialButton v0.1.7
+* jQuery POP'n SocialButton v0.1.8
 *
 * http://github.com/ktty1220/jquery.popn-socialbutton
 *
@@ -10,6 +10,7 @@
 * - http://stackoverflow.com/questions/8853342/how-to-get-google-1-count-for-current-page-in-php
 * - http://hail2u.net/blog/coding/jquery-query-yql-plugin.html
 * - http://hail2u.net/blog/coding/jquery-query-yql-plugin-supports-open-data-tables.html
+* - http://www.absolute-keitarou.net/blog/?p=1068
 *
 * Copyright (c) 2013 ktty1220 ktty1220@gmail.com
 * Licensed under the MIT license
@@ -36,6 +37,9 @@ do (jQuery) ->
         bgHover: '#ff6666'
         border: '#ffffff'
       countSize: 11
+      popupWindow:
+        width: 640
+        height: 480
     , options
     exOptions.urlOrg = exOptions.url
     exOptions.url = encodeURIComponent exOptions.url
@@ -45,10 +49,10 @@ do (jQuery) ->
     iconSize = 44
     # ボタンの浮き上がり距離
     popnUp = 4
-    # YQLで偽装するUA
-    dummyUA = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.1)'
     # 現在のページのURLスキーム
     scheme = if /https/.test document.location.protocol then 'https' else 'http'
+    # YQLのURL作成
+    mkYQL = (url) -> "#{scheme}://query.yahooapis.com/v1/public/yql?env=http://datatables.org/alltables.env&q=#{encodeURIComponent "SELECT content FROM data.headers WHERE url='#{url}' and ua='Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.1)'"}"
 
     servicesProp =
       twitter:
@@ -96,11 +100,26 @@ do (jQuery) ->
         * - クロスドメインによる取得になるのでYQLを使用する
         * - ただしgoogleのサーバーに設置してあるrobots.txtはYQL(というかYahooのロボット全般？)のUAを拒否するのでOpen Data Tableのdata.headerプラグインを使用する
         ###
-        countUrl: "#{scheme}://query.yahooapis.com/v1/public/yql?q=#{encodeURIComponent "SELECT content FROM data.headers WHERE url='https://plusone.google.com/_/+1/fastbutton?hl=ja&url=#{exOptions.urlOrg}' and ua='#{dummyUA}'"}&env=http://datatables.org/alltables.env"
+        countUrl: mkYQL "https://plusone.google.com/_/+1/fastbutton?hl=ja&url=#{exOptions.urlOrg}"
         jsonpFunc: (json, cb) ->
           count = 0
           if json.query?.count > 0
             m = json.results[0].match /window\.__SSR = {c: ([\d]+)/
+            count = m[1] if m?
+          cb count
+
+      pocket:
+        img: 'pocket_2x.png'
+        alt: 'Pocket Stock Button'
+        shareUrl: "https://getpocket.com/save?url=#{exOptions.url}&title=#{exOptions.text}"
+        ###
+        * Google+1ボタンと同様にYQLでカウントを取得する
+        ###
+        countUrl: mkYQL "https://widgets.getpocket.com/v1/button?label=pocket&count=vertical&align=left&v=1&url=#{exOptions.urlOrg}&src=#{exOptions.urlOrg}&r=#{Math.random() * 100000000}"
+        jsonpFunc: (json, cb) ->
+          count = 0
+          if json.query?.count > 0
+            m = json.results[0].match /em id="cnt"&gt;(\d+)&lt;/
             count = m[1] if m?
           cb count
 
@@ -179,9 +198,9 @@ do (jQuery) ->
 
     $(@).find('.popn-socialbutton-share').click () ->
       return true if $(@).parent().hasClass 'github'
-      top = (screen.height / 2) - 180
-      left = (screen.width / 2) - 240
-      window.open @href, '', "width=520, height=400, top=#{top}, left=#{left}"
+      top = (screen.height / 2) - (exOptions.popupWindow.height / 2)
+      left = (screen.width / 2) - (exOptions.popupWindow.width / 2)
+      window.open @href, '', "width=#{exOptions.popupWindow.width}, height=#{exOptions.popupWindow.height}, top=#{top}, left=#{left}"
       false
 
     $(@).find('a.popn-socialbutton-count').mouseenter () ->

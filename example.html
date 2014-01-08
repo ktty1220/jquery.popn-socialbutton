@@ -54,12 +54,12 @@
     <h2>サンプル1: デフォルトのシェアボタン</h2>
     <div class="social-button github"></div>
     <pre class="script">
-    $('.social-button.github').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus' ], {
+    $('.social-button.github').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus', 'pocket' ], {
       url: 'https://github.com/'
     });
     </pre>
 
-    <h2>サンプル2: GitHubリポジトリのスター数ボタン(誰得)</h2>
+    <h2>サンプル2: GitHubリポジトリのスター数ボタン(githubRepoオプションの指定が必要)</h2>
     <div class="social-button github-repo"></div>
     <pre class="script">
     $('.social-button.github-repo').popnSocialButton([ 'github' ], {
@@ -70,11 +70,11 @@
     <h2>サンプル3: シェア数をふきだし風にカスタマイズ</h2>
     <div class="social-button google"></div>
     <pre class="script">
-    $('.social-button.google').popnSocialButton([ 'facebook', 'gplus', 'twitter' ], {
+    $('.social-button.google').popnSocialButton([ 'facebook', 'pocket', 'gplus', 'twitter' ], {
       url: 'http://www.google.com/',
       text: 'ググレカス', 
       imgDir: './img',
-      buttonSpace: 108,
+      buttonSpace: 120,
       countPosition: {
         top: 8,
         left: 54

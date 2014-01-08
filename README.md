@@ -1,6 +1,6 @@
 # jQuery POP'n SocialButton
 
-Twitter, Facebook, Google+1, はてなブックマークのカスタムシェアボタンを表示するjQueryプラグイン(おまけでGitHubリポジトリのスター数ボタン)
+Twitter, Facebook, Google+1, はてなブックマーク, Pocketのカスタムシェアボタンを表示するjQueryプラグイン(おまけでGitHubリポジトリのスター数ボタン)
 
 ![example1](ss/example1.png)
 
@@ -10,13 +10,11 @@ Twitter, Facebook, Google+1, はてなブックマークのカスタムシェア
 
 また、公式のGoogle+1ボタンはIE7などの古いブラウザでは表示されませんが、jQuery POP'n SocialButtonでは表示する事ができます。
 
-ボタンをクリックすると各サービスのシェア登録ページを、シェア数をクリックすると各サービスのコメント一覧ページを別ウインドウで開きます。ただし、FacebookとGoogle+1はコメント一覧を見る方法がない(と思う)のでシェア数をクリックしても何も起こりません。
+ボタンをクリックすると各サービスのシェア登録ページを、シェア数をクリックすると各サービスのコメント一覧ページを別ウインドウで開きます。ただし、FacebookやGoogle+1などのコメント一覧を見る方法がない(と思う)サービスに関してはシェア数をクリックしても何も起こりません。
 
-今のところの対応サービスは、日本でシェアボタンの主流になっている3サービス(Twitter, Facebook, はてなブックマーク)のみです(というか他のサービスのシェア数の取得方法が分からないだけだったりする)。
+今のところの対応サービスは、Twitter, Facebook, Google+1, はてなブックマーク, Pocket, GitHubです。
 
-__バージョン1.6でGoogle+1、GitHubリポジトリに対応しました。__
-
-![example3](ss/example3.png)
+__ただし、Google+1, Pocketに関しては公式でサポートされていない方法でシェア数を取得している為、ある日突然使用できなくなる可能性がありますのでご注意ください。__
 
 他のサービスのシェア数の取得方法とシェアリンクのURL・パラメータの情報を提供頂ければ追加するかもしれません。
 
@@ -35,7 +33,7 @@ __バージョン1.6でGoogle+1、GitHubリポジトリに対応しました。_
 
 4. Javascript内で上記エレメントに対して`popnSocialButton()`を実行します。
 
-        $('#social-button').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus' ]);
+        $('#social-button').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus', 'pocket' ]);
 
 ## $( *element* ).popnSocialButton(services[, options])
 
@@ -51,6 +49,7 @@ __バージョン1.6でGoogle+1、GitHubリポジトリに対応しました。_
 * facebook
 * hatebu
 * gplus
+* pocket
 * github(`githubRepo`オプションを指定する必要があります)
 
 ### __options__ (省略可能)
@@ -63,7 +62,7 @@ __バージョン1.6でGoogle+1、GitHubリポジトリに対応しました。_
 
 * text
 
-    シェア内容に付加するテキストです。デフォルトは現在のページのタイトルです。
+    シェア内容に付加するテキストです。デフォルトは現在のページのタイトルです。サービスによってはこの指定が効かないものもあります。
 
 * imgDir
 
@@ -101,6 +100,11 @@ __バージョン1.6でGoogle+1、GitHubリポジトリに対応しました。_
 
         githubRepo: 'ktty1220/jquery.popn-socialbutton'
 
+* popupWindow
+
+    シェアボタンを押したときに表示されるポップアップウインドウのサイズを指定します。デフォルトは`{ width: 640, height: 480 }`です。
+
+
 #### 表示のカスタマイズ
 
 シェア数の部分の要素は`popn-socialbutton-count`というクラス名を持っています。
@@ -134,8 +138,14 @@ jQueryが自動でベンダープレフィックスを追加するようにな�
 * 各種サービスのアイコンは[ヴォルフロッシュ様のミニ・ソーシャル・アイコン](http://wolfrosch.com/works/webdesign/socialicons)から利用させて頂きました。
 * Google+1のシェア数取得に関しては<http://stackoverflow.com/questions/8853342/how-to-get-google-1-count-for-current-page-in-php>を参考にさせて頂きました。
 * YQLによる情報取得に関しては<http://hail2u.net/blog/coding/jquery-query-yql-plugin.html>および<http://hail2u.net/blog/coding/jquery-query-yql-plugin-supports-open-data-tables.html>を参考にさせて頂きました。
+* Pocketのシェア数取得に関しては<http://www.absolute-keitarou.net/blog/?p=1068>を参考にさせて頂きました。
 
 ## Changelog
+
+### 0.1.8 (2014-01-08)
+
+* Pocketに対応
+* ポップアップウインドウのサイズをオプションで変更できるように変更
 
 ### 0.1.7 (2013-06-16)
 
@@ -181,4 +191,4 @@ jQueryが自動でベンダープレフィックスを追加するようにな�
 
 [MIT license](http://www.opensource.org/licenses/mit-license)で配布します。
 
-&copy; 2013 [ktty1220](mailto:ktty1220@gmail.com)
+&copy; 2013-2014 [ktty1220](mailto:ktty1220@gmail.com)
