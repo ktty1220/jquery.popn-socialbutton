@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jquery.popn-socialbutton.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/tomorrow-night.min.css"/>
+ 
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
     <title>jQuery POP'n SocialButton サンプル</title>
     <style type="text/css">
       body {
-        margin: 0 40px;
+        width: 920px;
+        margin: 0 auto;
       }
       h2 {
         margin-top: 50px;
       }
-      pre {
-        font-family: monospace,sans-serif;
-        padding-top: 1em;
-        background-color: #eee;
-        border: solid 1px #ddd;
+      code {
+        padding: 0 !important;
       }
       .social-button.google .popn-socialbutton-count {
         position: relative;
@@ -49,30 +50,41 @@
   </head>
 
   <body>
+    <a href="https://github.com/ktty1220/jquery.popn-socialbutton" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+
     <h1>jQuery POP'n SocialButton サンプル</h1>
 
     <h2>サンプル1: デフォルトのシェアボタン</h2>
     <div class="social-button github"></div>
-    <pre class="script">
+    <pre><code class="script">
     $('.social-button.github').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus', 'pocket' ], {
       url: 'https://github.com/'
     });
-    </pre>
+    </code></pre>
 
     <h2>サンプル2: GitHubリポジトリのスター数ボタン(githubRepoオプションの指定が必要)</h2>
     <div class="social-button github-repo"></div>
-    <pre class="script">
+    <pre><code class="script">
     $('.social-button.github-repo').popnSocialButton([ 'github' ], {
       githubRepo: 'ktty1220/jquery.popn-socialbutton'
     });
-    </pre>
+    </code></pre>
 
-    <h2>サンプル3: シェア数をふきだし風にカスタマイズ</h2>
+    <h2>サンプル3: Feedly購読ボタン(feedUrlオプションの指定が必要)</h2>
+    <div class="social-button feedly"></div>
+    <pre><code class="script">
+    $('.social-button.feedly').popnSocialButton([ 'feedly' ], {
+      feedUrl: 'http://feeds.feedburner.com/hatena/b/hotentry'
+    });
+    </code></pre>
+
+    <h2>サンプル4: シェア数をふきだし風にカスタマイズ</h2>
     <div class="social-button google"></div>
-    <pre class="script">
-    $('.social-button.google').popnSocialButton([ 'facebook', 'pocket', 'gplus', 'twitter' ], {
+    <pre><code class="script">
+    $('.social-button.google').popnSocialButton([ 'facebook', 'pocket', 'gplus', 'twitter', 'feedly' ], {
       url: 'http://www.google.com/',
       text: 'ググレカス', 
+      feedUrl: 'http://feeds.feedburner.com/GoogleJapanDeveloperRelationsBlog',
       imgDir: './img',
       buttonSpace: 120,
       countPosition: {
@@ -88,9 +100,9 @@
       },
       countSize: 16
     });
-    </pre>
+    </code></pre>
     <div>上記に加えて別途CSSを指定</div>
-    <pre>
+    <pre><code>
     .social-button.google .popn-socialbutton-count {
       position: relative;
       box-shadow: none !important;
@@ -118,11 +130,12 @@
     .social-button.google a.popn-socialbutton-count:hover:after {
       border-right-color: #ddd;
     }
-    </pre>
+    </code></pre>
     <script type="text/javascript">
       $(function () {
         eval($('.script').text());
       });
     </script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 # jQuery POP'n SocialButton
 
-Twitter, Facebook, Google+1, はてなブックマーク, Pocketのカスタムシェアボタンを表示するjQueryプラグイン(おまけでGitHubリポジトリのスター数ボタン)
+Twitter, Facebook, Google+1, はてなブックマーク, Pocketのカスタムシェアボタンを表示するjQueryプラグイン(おまけでGitHubリポジトリのスター数ボタンとFeedlyの購読ボタン)
 
 ![example1](ss/example1.png)
 
@@ -12,11 +12,15 @@ Twitter, Facebook, Google+1, はてなブックマーク, Pocketのカスタム�
 
 ボタンをクリックすると各サービスのシェア登録ページを、シェア数をクリックすると各サービスのコメント一覧ページを別ウインドウで開きます。ただし、FacebookやGoogle+1などのコメント一覧を見る方法がない(と思う)サービスに関してはシェア数をクリックしても何も起こりません。
 
-今のところの対応サービスは、Twitter, Facebook, Google+1, はてなブックマーク, Pocket, GitHubです。
+今のところの対応サービスは、Twitter, Facebook, Google+1, はてなブックマーク, Pocket, GitHub, Feedlyです。
 
-__ただし、Google+1, Pocketに関しては公式でサポートされていない方法でシェア数を取得している為、ある日突然使用できなくなる可能性がありますのでご注意ください。__
+__ただし、Google+1, Pocket, Feedlyに関しては公式でサポートされていない方法でシェア数を取得している為、ある日突然使用できなくなる可能性がありますのでご注意ください。__
 
 他のサービスのシェア数の取得方法とシェアリンクのURL・パラメータの情報を提供頂ければ追加するかもしれません。
+
+## デモ
+
+実際に設置してみたデモは[こちら](http://ktty1220.me/jquery.popn-socialbutton/example.html)にあります。
 
 ## 使用方法
 
@@ -24,16 +28,22 @@ __ただし、Google+1, Pocketに関しては公式でサポートされてい�
 
 2. HTML内でjquery.jsとjquery.popn-socialbutton.jsを読み込みます。
 
-        <script type="text/javascript" src="/path/to/jquery.js"></script>
-        <script type="text/javascript" src="/path/to/jquery.popn-socialbutton.js"></script>
+```
+<script type="text/javascript" src="/path/to/jquery.js"></script>
+<script type="text/javascript" src="/path/to/jquery.popn-socialbutton.js"></script>
+```
 
 3. HTML内にシェアボタンを表示させたい空のエレメントを用意します。
 
-        <div id="social-button"></div>
+```
+<div id="social-button"></div>
+```
 
 4. Javascript内で上記エレメントに対して`popnSocialButton()`を実行します。
 
-        $('#social-button').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus', 'pocket' ]);
+```
+$('#social-button').popnSocialButton([ 'twitter', 'facebook', 'hatebu', 'gplus', 'pocket' ]);
+```
 
 ## $( *element* ).popnSocialButton(services[, options])
 
@@ -51,6 +61,7 @@ __ただし、Google+1, Pocketに関しては公式でサポートされてい�
 * gplus
 * pocket
 * github(`githubRepo`オプションを指定する必要があります)
+* feedly(`feedUrl`オプションを指定する必要があります)
 
 ### __options__ (省略可能)
 
@@ -98,12 +109,25 @@ __ただし、Google+1, Pocketに関しては公式でサポートされてい�
 
     スター数を表示させたいGitHubリポジトリを以下の様に指定します。
 
-        githubRepo: 'ktty1220/jquery.popn-socialbutton'
+    ```
+    githubRepo: 'ktty1220/jquery.popn-socialbutton'
+    ```
+
+* feedUrl
+
+    `services`に`feedly`を指定した場合は必須です。その他のサービスでは無視されます。
+
+    Feedly購読者数を表示させたいフィードのURLを以下の様に指定します。
+
+    ```
+    feedUrl: 'http://feeds.feedburner.com/hatena/b/hotentry'
+    ```
 
 * popupWindow
 
     シェアボタンを押したときに表示されるポップアップウインドウのサイズを指定します。デフォルトは`{ width: 640, height: 480 }`です。
 
+    GitHub, Feedlyに関してはポップアップではなく別ウィンドウで開くのでこのオプションは無視されます。
 
 #### 表示のカスタマイズ
 
@@ -135,12 +159,17 @@ jQueryが自動でベンダープレフィックスを追加するようにな�
 ## 謝辞
 
 * 各種サービスのシェア数取得に関しては<http://q.hatena.ne.jp/1320898356>を参考にさせて頂きました。
-* 各種サービスのアイコンは[ヴォルフロッシュ様のミニ・ソーシャル・アイコン](http://wolfrosch.com/works/webdesign/socialicons)から利用させて頂きました。
+* 各種サービスのアイコンは[ヴォルフロッシュ様のミニ・ソーシャル・アイコン](http://wolfrosch.com/works/webdesign/socialicons)から利用させて頂きました(Feedlyは[公式](http://www.feedly.com/factory.html)のボタンを加工しました)。
 * Google+1のシェア数取得に関しては<http://stackoverflow.com/questions/8853342/how-to-get-google-1-count-for-current-page-in-php>を参考にさせて頂きました。
 * YQLによる情報取得に関しては<http://hail2u.net/blog/coding/jquery-query-yql-plugin.html>および<http://hail2u.net/blog/coding/jquery-query-yql-plugin-supports-open-data-tables.html>を参考にさせて頂きました。
 * Pocketのシェア数取得に関しては<http://www.absolute-keitarou.net/blog/?p=1068>を参考にさせて頂きました。
+* Feedlyの購読者数取得に関しては<http://nelog.jp/get-feedly-count-js-only>を参考にさせて頂きました。
 
 ## Changelog
+
+### 0.1.9 (2014-11-23)
+
+* Feedlyに対応
 
 ### 0.1.8 (2014-01-08)
 

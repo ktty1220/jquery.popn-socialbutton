@@ -1,5 +1,5 @@
 ###!
-* jQuery POP'n SocialButton v0.1.8
+* jQuery POP'n SocialButton v0.1.9
 *
 * http://github.com/ktty1220/jquery.popn-socialbutton
 *
@@ -42,7 +42,7 @@ do (jQuery) ->
         height: 480
     , options
     exOptions.urlOrg = exOptions.url
-    exOptions.url = encodeURIComponent exOptions.url
+    exOptions.url = encodeURIComponent exOptions.urlOrg
     exOptions.text = encodeURIComponent exOptions.text
 
     # ボタン画像のサイズ
@@ -52,8 +52,10 @@ do (jQuery) ->
     # 現在のページのURLスキーム
     scheme = if /https/.test document.location.protocol then 'https' else 'http'
     # YQLのURL作成
-    mkYQL = (url) -> "#{scheme}://query.yahooapis.com/v1/public/yql?env=http://datatables.org/alltables.env&q=#{encodeURIComponent "SELECT content FROM data.headers WHERE url='#{url}' and ua='Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.1)'"}"
-
+    mkYQL = (url, wantJson = false) ->
+      yUrl = "#{scheme}://query.yahooapis.com/v1/public/yql?env=http://datatables.org/alltables.env&q=#{encodeURIComponent "SELECT content FROM data.headers WHERE url='#{url}' and ua='Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.1)'"}"
+      yUrl += '&format=json' if wantJson
+      yUrl
     servicesProp =
       twitter:
         img: 'twitter_2x.png'
@@ -123,13 +125,24 @@ do (jQuery) ->
             count = m[1] if m?
           cb count
 
+      feedly:
+        img: 'feedly_2x.png'
+        alt: 'Feedly Follow Button'
+        shareUrl: "https://feedly.com/index.html#subscription%2Ffeed%2F#{exOptions.feedUrl}"
+        ###
+        * Google+1ボタンと同様にYQLでカウントを取得する
+        ###
+        countUrl: mkYQL "https://cloud.feedly.com/v3/feeds/feed%2F#{encodeURIComponent exOptions.feedUrl}", true
+        jsonpFunc: (json, cb) ->
+          cb(json?.query?.results?.resources?.content?.json?.subscribers ? 0)
+
       github:
         img: 'github_alt_2x.png'
         alt: 'GitHub Repository'
         shareUrl: "https://github.com/#{exOptions.githubRepo}"
         commentUrl: "https://github.com/#{exOptions.githubRepo}/stargazers"
         countUrl: "https://api.github.com/repos/#{exOptions.githubRepo}"
-        jsonpFunc: (json, cb) -> cb(json.data.watchers ? 0)
+        jsonpFunc: (json, cb) -> cb(json?.data?.watchers ? 0)
 
     _addLink = (name, prop, idx) =>
       wrapTag = $('<div/>').attr(
@@ -197,7 +210,7 @@ do (jQuery) ->
     $(@).height iconSize + popnUp
 
     $(@).find('.popn-socialbutton-share').click () ->
-      return true if $(@).parent().hasClass 'github'
+      return true if /(github|feedly)/.test $(@).parent().attr('class')
       top = (screen.height / 2) - (exOptions.popupWindow.height / 2)
       left = (screen.width / 2) - (exOptions.popupWindow.width / 2)
       window.open @href, '', "width=#{exOptions.popupWindow.width}, height=#{exOptions.popupWindow.height}, top=#{top}, left=#{left}"
